@@ -1,0 +1,50 @@
+module ratelimiting {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:ratelimiting";
+    prefix "ratelimiting";
+
+    revision "2015-01-05" {
+        description "Initial revision of ratelimiting model";
+    }
+
+    typedef error-code-type {
+        type enumeration {
+            enum OK;
+            enum ERROR;
+        }
+    }
+
+    rpc set-up-rate-limiting {
+        description "Given a switch ID, in port, out port, limited rate, and burst size, set up a flow with meter.";
+
+        input {
+            leaf switch-id {
+                type string;
+            }
+
+            leaf src-port {
+                type int32;
+            }
+
+            leaf dst-port {
+                type int32;
+            }
+
+            leaf limited-rate {
+                description "The metric is kbps.";
+                type int32;
+            }
+
+            leaf burst-size {
+                description "The metric is kb. The smaller value means rate limiting is more fine grain";
+                type int32;
+            }
+        }
+
+        output {
+            leaf error-code {
+                type error-code-type;
+            }
+        }
+    }
+}
